@@ -26,9 +26,9 @@ public class HelloController {
         return new ResponseEntity<>(id + " : is created" , HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<String> updateFolksdev(@RequestBody String id) {
-        return  ResponseEntity.ok(id + " : is updated");
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<String> updateFolksdev(@PathVariable String id, @RequestBody String a) {
+        return  ResponseEntity.ok(id + " : is updated" + a);
     }
 
     @DeleteMapping(value = "/{id}")
