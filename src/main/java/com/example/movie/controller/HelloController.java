@@ -1,5 +1,7 @@
 package com.example.movie.controller;
 
+import com.example.movie.dto.CreateFolksdevDto;
+import com.example.movie.dto.CreateFolksdevRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,10 @@ public class HelloController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createFolksdev(@RequestBody String id) {
-        return new ResponseEntity<>(id + " : is created" , HttpStatus.CREATED);
+    public ResponseEntity<CreateFolksdevDto> createFolksdev(@RequestBody CreateFolksdevRequest createFolksdevRequest) {
+        int birthYear = 2021 - createFolksdevRequest.getAge();
+        CreateFolksdevDto createFolksdevDto = new CreateFolksdevDto(createFolksdevRequest.getName(), birthYear);
+        return new ResponseEntity<>(createFolksdevDto, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
