@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 @RestController
@@ -24,7 +25,7 @@ public class HelloController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateFolksdevDto> createFolksdev(@RequestBody CreateFolksdevRequest createFolksdevRequest) {
+    public ResponseEntity<CreateFolksdevDto> createFolksdev(@Valid @RequestBody CreateFolksdevRequest createFolksdevRequest) {
         int birthYear = 2021 - createFolksdevRequest.getAge();
         CreateFolksdevDto createFolksdevDto = new CreateFolksdevDto(createFolksdevRequest.getName(), birthYear);
         return new ResponseEntity<>(createFolksdevDto, HttpStatus.CREATED);

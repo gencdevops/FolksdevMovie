@@ -6,7 +6,7 @@ data class CreateFolksdevRequest(
         @field:NotNull
         val id: String,
 
-        @field:NotBlank
+        @field:NotBlank(message = "The name value must not be empty or null")
         val name: String,
 
         @field:NotNull
