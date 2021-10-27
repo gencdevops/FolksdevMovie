@@ -11,8 +11,8 @@ import javax.persistence.*
 data class Actor @JvmOverloads constructor(
     @Id
     @Column(name = "actor_id")
-    @GeneratedValue(generator = "mahmut")
-    @GenericGenerator(name = "mahmut", strategy = "org.hibernate.id.UUIDGenerator") //Time stamp ile hashleyip uniq id uretir
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator") //Time stamp ile hashleyip uniq id uretir
     val id: String? = "",
     val name: String,
     val dateOfBirth: LocalDate,

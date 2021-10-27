@@ -11,8 +11,8 @@ import javax.persistence.*
 data class Movie @JvmOverloads constructor(
     @Id
     @Column(name = "movie_id")
-    @GeneratedValue(generator = "mahmut")
-    @GenericGenerator(name = "mahmut", strategy = "org.hibernate.id.UUIDGenerator") //Time stamp ile hashleyip uniq id uretir
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator") //Time stamp ile hashleyip uniq id uretir
     val id: String? = "",
     val name: String,
     val description: String,
@@ -31,9 +31,18 @@ data class Movie @JvmOverloads constructor(
     @ManyToMany(fetch = FetchType.LAZY) //manytomany iliskisinde lazy yapmazsak lazyinitializion exception aliriz yoksa her iki tarafta birbirini sonsuza kadar cagirir
     @JoinTable(
         name = "actor_movies",
-        joinColumns = [JoinColumn(name = "movie_id""movie_id")],
+        joinColumns = [JoinColumn(name = "movie_id""movie_id")], //icerisinde bulundugu entityi reference vermek zorunda
         inverseJoinColumns = [JoinColumn(name = "actor_id", referencedColumnName = "actor_id")])
     val actors: Set<Actor>,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "director_id", referencedColumnName = "director_id")
+    val director: Director,
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])//Cascade = hangi islemi yaparken 2sinde birden yap anlaminda
+    @JoinColumn(name = "pub_id", referencedColumnName = 'publisher_id')
+    val publisher : Publisher
+
 
 
 ) {
