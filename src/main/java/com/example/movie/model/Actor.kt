@@ -7,23 +7,28 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-//@Table(name = "actor") tablo adi entity adi ile ayniysa ayrica tablename vermemize gerek yok
 data class Actor @JvmOverloads constructor(
     @Id
     @Column(name = "actor_id")
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator") //Time stamp ile hashleyip uniq id uretir
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     val id: String? = "",
     val name: String,
     val dateOfBirth: LocalDate,
     val gender: Gender,
 
-    @ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
-    val movies: Set<Movie>
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "actor_movies",
+        joinColumns = [JoinColumn(name = "actor_id", referencedColumnName = "actor_id")],
+        inverseJoinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "movie_id")]
+    )
+    val movies: Set<Movie>? = HashSet()
 
 ) {
 
 }
+
 enum class Gender {
     MALE, FEMALE, UNKNOWN
 }

@@ -4,51 +4,72 @@ import com.example.movie.Actor
 import com.example.movie.Gender
 import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDate
+import java.util.HashSet
 import javax.persistence.*
 
 
 @Entity
 data class Movie @JvmOverloads constructor(
-    @Id
+    @Id //PRIMARY KEY
     @Column(name = "movie_id")
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator") //Time stamp ile hashleyip uniq id uretir
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     val id: String? = "",
-    val name: String,
+    val title: String,
     val description: String,
     val imdbUrl: String,
     val duration: Int,
     val featuredYear: Int,
+    @field:ElementCollection(fetch = FetchType.EAGER) // ONE TO MANY iliski tablosu
+    val genresTypes: List<GenresType>,
 
-    @field:ElementCollection(fetch = FetchType.EAGER) //sabit listelerde eager kullanabilir. ONE TO MANY iliski
-    val genresTypes: List<GenresType> ,//MOVIE_GENRES_TYPE
-
-    // ONE to Many OWNER(Froign key : JoinColumn) =  CHILD(mappedBy)
-
-
-    //Movie ile Actor arasinda Many to many iliskisi var
-    //Many to Many iliskisinde idlerin tutuldugu bir tablo ekleniyor actor_id, movie_id diye yeni bir tablo
-    @ManyToMany(fetch = FetchType.LAZY) //manytomany iliskisinde lazy yapmazsak lazyinitializion exception aliriz yoksa her iki tarafta birbirini sonsuza kadar cagirir
-    @JoinTable(
-        name = "actor_movies",
-        joinColumns = [JoinColumn(name = "movie_id""movie_id")], //icerisinde bulundugu entityi reference vermek zorunda
-        inverseJoinColumns = [JoinColumn(name = "actor_id", referencedColumnName = "actor_id")])
+    @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
     val actors: Set<Actor>,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "director_id", referencedColumnName = "director_id")
+    @JoinColumn(name = "director_id", referencedColumnName = "director_id") // Movie = Owner(fk)
     val director: Director,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])//Cascade = hangi islemi yaparken 2sinde birden yap anlaminda
-    @JoinColumn(name = "pub_id", referencedColumnName = 'publisher_id')
-    val publisher : Publisher
-
-
-
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "pub_id", referencedColumnName = "publisher_id")
+    val publisher: Publisher
 ) {
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Movie
+
+        if (id != null && id != other.id) return false
+        if (title != other.title) return false
+        if (description != other.description) return false
+        if (imdbUrl != other.imdbUrl) return false
+        if (duration != other.duration) return false
+        if (featuredYear != other.featuredYear) return false
+        if (genresTypes != other.genresTypes) return false
+        if (actors != other.actors) return false
+        if (director != other.director) return false
+        if (publisher != other.publisher) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + title.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + imdbUrl.hashCode()
+        result = 31 * result + duration
+        result = 31 * result + featuredYear
+        result = 31 * result + genresTypes.hashCode()
+        result = 31 * result + actors.hashCode()
+        result = 31 * result + director.id.hashCode()
+        result = 31 * result + publisher.hashCode()
+        return result
+    }
 }
 
-enum class GenresType{
-    COMEDY, DRAMA, HORROR, ROMANCE, FANTASY, ACTION
+enum class GenresType {
+    COMEDY, DRAMA, HORROR, ROMANCE, FANTASY, ACTION, MYSTERY, SCI_FI, THRILLER
 }
