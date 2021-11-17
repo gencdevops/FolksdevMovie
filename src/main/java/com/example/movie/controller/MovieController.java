@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/movie")
 public class MovieController {
@@ -18,13 +21,18 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @PostMapping
-    public ResponseEntity<Movie> createMovie(@RequestBody CreateMovieRequest movieRequest){
-        return ResponseEntity.ok(movieService.createMovie(movieRequest));
+    @GetMapping
+    public ResponseEntity<List<MovieDto>> getMovies() {
+        return ResponseEntity.ok(movieService.getAllMovies());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Movie>> getMovies(){
-        return ResponseEntity.ok(movieService.getAllMovies());
+    @GetMapping("/{id}")
+    public ResponseEntity<MovieDto> getMovie(@PathVariable String id) {
+        return ResponseEntity.ok(movieService.getMovieById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<MovieDto> createMovie(@Valid @RequestBody CreateMovieRequest movieRequest) {
+        return ResponseEntity.ok(movieService.createMovie(movieRequest));
     }
 }

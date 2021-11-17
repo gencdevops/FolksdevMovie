@@ -1,16 +1,14 @@
 package com.example.movie.controller;
 
-import com.folksdev.movie.IntegrationTestSupport;
-import com.folksdev.movie.model.Actor;
+
+import com.example.movie.Actor;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class ActorControllerIT extends IntegrationTestSupport {
+class ActorControllerIT extends MovieControllerIT {
 
 
     @Test

@@ -1,5 +1,12 @@
 package com.example.movie;
 
+import com.example.movie.dto.CreateMovieRequest;
+import com.example.movie.model.Director;
+import com.example.movie.model.GenresType;
+import com.example.movie.model.Movie;
+import com.example.movie.model.Publisher;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;

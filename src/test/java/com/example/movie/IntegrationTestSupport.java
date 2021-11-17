@@ -1,4 +1,20 @@
-package com.example.movie.controller;
+package com.example.movie;
+
+import com.example.movie.repository.ActorRepository;
+import com.example.movie.repository.DirectorRepository;
+import com.example.movie.repository.MovieRepository;
+import com.example.movie.repository.PublisherRepository;
+import com.example.movie.service.MovieService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +25,7 @@ import java.util.stream.IntStream;
 @TestPropertySource(locations = "classpath:application.properties") // Test context icin kullanilacak propertyleri ayarlar.
 @DirtiesContext
 @AutoConfigureMockMvc // Context icerisindeki servletleri ayaga kaldirir.
-public class IntegrationTestSupport {
+public class IntegrationTestSupport<MovieDtoConverter> {
 
     @Autowired
     public MovieService movieService;
