@@ -1,5 +1,7 @@
 package com.example.movie.service;
 
+import com.example.movie.Actor;
+import com.example.movie.dto.CreateMovieRequest;
 import com.example.movie.model.Director;
 import com.example.movie.model.Movie;
 import com.example.movie.model.Publisher;

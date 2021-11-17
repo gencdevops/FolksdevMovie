@@ -1,9 +1,7 @@
 package com.example.movie.model
 
 import org.hibernate.annotations.GenericGenerator
-import org.springframework.cglib.proxy.Mixin
 import javax.persistence.*
-
 
 @Entity
 data class Director @JvmOverloads constructor(

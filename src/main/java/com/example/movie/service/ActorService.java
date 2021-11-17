@@ -2,6 +2,7 @@ package com.example.movie.service;
 
 import com.example.movie.Actor;
 import com.example.movie.repository.ActorRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

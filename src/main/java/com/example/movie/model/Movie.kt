@@ -1,12 +1,8 @@
 package com.example.movie.model
 
 import com.example.movie.Actor
-import com.example.movie.Gender
-import org.hibernate.annotations.GenericGenerator
-import java.time.LocalDate
-import java.util.HashSet
+import  org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
-
 
 @Entity
 data class Movie @JvmOverloads constructor(
