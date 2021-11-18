@@ -1,13 +1,16 @@
 package com.example.movie.dto.converter;
 
 import com.example.movie.Actor;
+import com.example.movie.dto.ActorDto;
+import com.example.movie.dto.MovieDto;
+import com.example.movie.model.Movie;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.folksdev.movie.util.MovieDurationTimeUtil.getMovieDurationString;
+import static com.example.movie.util.MovieDurationTimeUtil.getMovieDurationString;
 
 @Component
 public class ActorDtoConverter {

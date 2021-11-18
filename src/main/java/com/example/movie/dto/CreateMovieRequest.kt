@@ -1,16 +1,18 @@
 package com.example.movie.dto
 
 import com.example.movie.model.GenresType
+import javax.validation.constraints.NotBlank
 
 
-data class CreateMovieRequest(
+class CreateMovieRequest(
+    @field:NotBlank
     val title: String?,
-    val description: String?,
-    val imdbUrl: String?,
-    val duration: Int?,
-    val featuredYear: Int?,
-    val genresType: List<GenresType>?,
-    val actors: Set<String>?,
-    val publisherId: String?,
-    val directorId: String?
-)
+    description: String?,
+    imdbUrl: String?,
+    duration: Int?,
+    featuredYear: Int?,
+    genresType: List<GenresType>?,
+    actorIds: List<String>?,
+    publisherId: String?,
+    directorId: String?
+) : BaseMovieRequest(description, imdbUrl, duration, featuredYear, genresType, actorIds, publisherId, directorId)

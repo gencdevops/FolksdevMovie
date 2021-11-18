@@ -1,5 +1,7 @@
 package com.example.movie.dto
 
+import com.example.movie.model.GenresType
+
 class UpdateMovieRequest @JvmOverloads constructor(
     description: String?,
     imdbUrl: String?,

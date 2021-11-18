@@ -1,5 +1,9 @@
 package com.example.movie.dto
 
+import com.example.movie.Gender
+import com.fasterxml.jackson.annotation.JsonInclude
+import java.time.LocalDate
+
 data class ActorDto @JvmOverloads constructor(
     val id: String,
     val name: String,

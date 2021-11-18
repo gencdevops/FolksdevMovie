@@ -1,6 +1,7 @@
 package com.example.movie.controller;
 
 import com.example.movie.dto.CreateMovieRequest;
+import com.example.movie.dto.MovieDto;
 import com.example.movie.model.Movie;
 import com.example.movie.service.MovieService;
 import org.springframework.http.ResponseEntity;

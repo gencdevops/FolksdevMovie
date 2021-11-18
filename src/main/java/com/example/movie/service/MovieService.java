@@ -2,21 +2,26 @@ package com.example.movie.service;
 
 import com.example.movie.Actor;
 import com.example.movie.dto.CreateMovieRequest;
+import com.example.movie.dto.MovieDto;
+import com.example.movie.dto.converter.MovieDtoConverter;
+import com.example.movie.exception.MovieNotFoundException;
 import com.example.movie.model.Director;
 import com.example.movie.model.Movie;
 import com.example.movie.model.Publisher;
-import com.example.movie.repository.DirectorRepository;
 import com.example.movie.repository.MovieRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 
 public class MovieService {
 
-    private static final Logger logger = LoggerFactory.getLogger(MovieService.class);
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(MovieService.class);
 
     private final MovieRepository movieRepository; // Immutable => Testability, Thread safety
     private final ActorService actorService;

@@ -3,7 +3,7 @@ package com.example.movie.model
 import org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
 
-Entity
+@Entity
 data class Director @JvmOverloads constructor(
     @Id
     @Column(name = "director_id")
