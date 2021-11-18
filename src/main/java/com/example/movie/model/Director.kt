@@ -3,7 +3,7 @@ package com.example.movie.model
 import org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
 
-@Entity
+Entity
 data class Director @JvmOverloads constructor(
     @Id
     @Column(name = "director_id")
@@ -14,10 +14,8 @@ data class Director @JvmOverloads constructor(
     val lastName: String,
 
     @OneToMany(mappedBy = "director", fetch = FetchType.LAZY)
-    val movies: Set<Movie>
-){
-
-    constructor(name: String, lastName: String): this("", name, lastName, HashSet())
+    val movies: Set<Movie>? = HashSet()
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -37,7 +35,6 @@ data class Director @JvmOverloads constructor(
         var result = id?.hashCode() ?: 0
         result = 31 * result + name.hashCode()
         result = 31 * result + lastName.hashCode()
-        result = 31 * result + movies.hashCode()
         return result
     }
 }
