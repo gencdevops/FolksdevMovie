@@ -4,8 +4,10 @@ import com.example.movie.model.Publisher;
 import com.example.movie.repository.PublisherRepository;
 import org.springframework.stereotype.Service;
 
-@Service
+@@Service
 public class PublisherService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PublisherService.class);
 
     private final PublisherRepository publisherRepository;
 
@@ -15,6 +17,9 @@ public class PublisherService {
 
     protected Publisher getPublisherById(String id) {
         return publisherRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Publisher not found"));
+                .orElseThrow(() -> {
+                    logger.warn("Publisher not found with id " + id);
+                    return new PublisherNotFoundException("Publisher not found id: " + id );
+                });
     }
 }

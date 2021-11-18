@@ -16,19 +16,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GeneralExceptionAdviser extends ResponseEntityExceptionHandler {
+public class GeneralExceptionAdvisor extends ResponseEntityExceptionHandler {
 
-    @NotNull
+    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  @NotNull HttpHeaders httpHeaders,
-                                                                  @NotNull HttpStatus httpStatus,
-                                                                  @NotNull WebRequest webRequest) {
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ResponseEntity<?> handle(MovieNotFoundException exception) {
+        return handleNotFound(exception.getMessage());
+    }
+
+    @ExceptionHandler(ActorNotFoundException.class)
+    public ResponseEntity<?> handle(ActorNotFoundException exception) {
+        return handleNotFound(exception.getMessage());
+    }
+
+    @ExceptionHandler(PublisherNotFoundException.class)
+    public ResponseEntity<?> handle(PublisherNotFoundException exception) {
+        return handleNotFound(exception.getMessage());
+    }
+
+    private ResponseEntity<?> handleNotFound(String s) {
+        return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 }

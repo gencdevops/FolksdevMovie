@@ -1,5 +1,11 @@
 package com.example.movie.dto
 
+import com.example.movie.model.GenresType
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.Positive
+
 open class BaseMovieRequest @JvmOverloads constructor(
     @field:NotBlank
     val description: String? = "",

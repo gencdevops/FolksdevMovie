@@ -13,47 +13,67 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+
 public class MovieService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     private final MovieRepository movieRepository; // Immutable => Testability, Thread safety
     private final ActorService actorService;
     private final PublisherService publisherService;
     private final DirectorService directorService;
-
+    private final MovieDtoConverter movieDtoConverter;
 
     // constructor based => BEST PRACTICE
     public MovieService(MovieRepository movieRepository,
-                        DirectorRepository directorRepository, ActorService actorService, PublisherService publisherService, DirectorService directorService) { //Memory address
+                        ActorService actorService,
+                        PublisherService publisherService,
+                        DirectorService directorService, MovieDtoConverter movieDtoConverter) { //Memory address
         this.movieRepository = movieRepository;
         this.actorService = actorService;
         this.publisherService = publisherService;
         this.directorService = directorService;
+        this.movieDtoConverter = movieDtoConverter;
     }
 
+    public MovieDto createMovie(CreateMovieRequest movieRequest) {
 
-    public Movie createMovie(CreateMovieRequest movieRequest) {
         Publisher publisher = publisherService.getPublisherById(movieRequest.getPublisherId());
-        Director director = directorService.findDirectorById(movieRequest.getDirectorId());
-        List<Actor> actorList = actorService.getActorList(List.copyOf(movieRequest.getActors()));
-        Movie movie = new Movie(null,
+        Director director = directorService.getDirectorById(movieRequest.getDirectorId());
+        Set<Actor> actorList = actorService.getActorList(movieRequest.getActorIds()).stream().collect(Collectors.toSet());
+
+        logger.info("Publisher, director and actorList received");
+        Movie movie = new Movie(
                 movieRequest.getTitle(),
                 movieRequest.getDescription(),
                 movieRequest.getImdbUrl(),
                 movieRequest.getDuration(),
                 movieRequest.getFeaturedYear(),
                 movieRequest.getGenresType(),
-                Set.copyOf(actorList),
+                actorList,
                 director,
                 publisher);
-        return movieRepository.save(movie);
+
+        return movieDtoConverter.convert(movieRepository.save(movie));
     }
 
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+    public List<MovieDto> getAllMovies() {
+        return movieRepository.findAll()
+                .stream().map(movieDtoConverter::convert)
+                .collect(Collectors.toList());
     }
 
     public String findImdbUrlById(String id) {
         return movieRepository.selectImdbUrlByMovieId(id)
-                .orElseThrow(() -> new RuntimeException("FUCK!"));
+                .orElseThrow(() -> new MovieNotFoundException("Movie could not find by id: " + id));
+    }
+
+    public MovieDto getMovieById(String id) {
+        return movieDtoConverter.convert(findMovieById(id));
+    }
+
+    protected Movie findMovieById(String id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Movie could not find by id: " + id));
     }
 }

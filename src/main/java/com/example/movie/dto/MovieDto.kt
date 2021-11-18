@@ -1,5 +1,8 @@
 package com.example.movie.dto
 
+import com.example.movie.model.GenresType
+import com.fasterxml.jackson.annotation.JsonInclude
+
 data class MovieDto @JvmOverloads constructor(
     val id: String,
     val title: String,
