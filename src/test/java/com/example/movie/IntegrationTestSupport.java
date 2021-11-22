@@ -1,5 +1,6 @@
 package com.example.movie;
 
+import com.example.movie.dto.converter.MovieDtoConverter;
 import com.example.movie.repository.ActorRepository;
 import com.example.movie.repository.DirectorRepository;
 import com.example.movie.repository.MovieRepository;
@@ -25,7 +26,7 @@ import java.util.stream.IntStream;
 @TestPropertySource(locations = "classpath:application.properties") // Test context icin kullanilacak propertyleri ayarlar.
 @DirtiesContext
 @AutoConfigureMockMvc // Context icerisindeki servletleri ayaga kaldirir.
-public class IntegrationTestSupport<MovieDtoConverter> {
+public class IntegrationTestSupport {
 
     @Autowired
     public MovieService movieService;
